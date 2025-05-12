@@ -3,5 +3,8 @@ package com.bavteqdoit.repository;
 import com.bavteqdoit.entity.Currency;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CurrencyRepository extends JpaRepository <Currency, Long>{
+import java.util.Optional;
+
+public interface CurrencyRepository extends JpaRepository<Currency, Long> {
+    Optional<Currency> findByAcronym(String acronym);
 }
