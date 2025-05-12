@@ -1,4 +1,4 @@
-package com.bavteqdoit.entities;
+package com.bavteqdoit.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,18 +11,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Balance {
+public class FundraisingEvent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private double amount;
+    private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "box_id")
-    private Box box;
+    private String eventAddress;
 
-    @ManyToOne
-    @JoinColumn(name = "currency_id")
-    private Currency currencyId;
+    private int phoneNumber;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id")
+    private Account account;
 }

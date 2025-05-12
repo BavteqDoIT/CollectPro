@@ -1,4 +1,4 @@
-package com.bavteqdoit.entities;
+package com.bavteqdoit.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
