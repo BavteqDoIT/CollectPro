@@ -16,11 +16,11 @@ public class FundraisingEventService {
         return fundraisingEventRepository.save(fe);
     }
 
-    public List<FundraisingEvent> findAll() {
+    public List<FundraisingEvent> findAllFundraisingEvents() {
         return fundraisingEventRepository.findAll();
     }
 
-    public FundraisingEvent findById(Long id) {
+    public FundraisingEvent findFundraisingEventById(Long id) {
         return fundraisingEventRepository.findById(id).orElse(null);
     }
 }

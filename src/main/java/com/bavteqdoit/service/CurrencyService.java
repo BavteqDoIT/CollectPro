@@ -5,6 +5,8 @@ import com.bavteqdoit.repository.CurrencyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CurrencyService {
@@ -16,5 +18,13 @@ public class CurrencyService {
 
     public Currency findCurrencyByAcronym(String acronym) {
         return currencyRepository.findByAcronym(acronym).orElse(null);
+    }
+
+    public List<Currency> findAllCurrencies(){
+        return currencyRepository.findAll();
+    }
+
+    public Currency findCurrencyById(long id) {
+        return currencyRepository.findById(id).orElse(null);
     }
 }
