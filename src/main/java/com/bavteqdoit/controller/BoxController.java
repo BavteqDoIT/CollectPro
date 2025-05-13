@@ -40,4 +40,14 @@ public class BoxController {
     public Box updateBox(@PathVariable long id, @RequestBody Box box) {
         return boxService.updateBox(id, box);
     }
+
+    @DeleteMapping("/{id}")
+    public List<Box> deleteBox(@PathVariable long id) {
+        return boxService.deleteBox(id);
+    }
+
+    @PutMapping("/rent/{id}/{days}")
+    public Box rentBox(@PathVariable long id, @PathVariable int days) {
+        return boxService.rentBox(id,days);
+    }
 }

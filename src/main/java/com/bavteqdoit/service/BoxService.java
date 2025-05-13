@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -38,7 +40,37 @@ public class BoxService {
         return boxRepository.save(existingBox);
     }
 
+    public List<Box> deleteBox(long id) {
+        Box existingBox = boxRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Box not found!"));
+        if (emptyBox(existingBox)) {
+            if (existingBox.isRented()) {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Deleting rented box is not allowed");
+            } else {
+                boxRepository.deleteById(id);
+                return boxRepository.findAll();
+            }
+        } else {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Cannot delete not empty box!");
+        }
+    }
 
+    public boolean emptyBox(Box box) {
+        boolean emptyBox = false;
+        if ((box.getSum().compareTo(BigDecimal.ZERO) == 0)) {
+            emptyBox = true;
+        }
+        return emptyBox;
+    }
 
-
+    public Box rentBox(long id, int days) {
+        Box existingBox = boxRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Box not found!"));
+        if(!existingBox.isRented()) {
+            existingBox.setRented(true);
+            existingBox.setStartDate(LocalDate.now());
+            existingBox.setEndDate(LocalDate.now().plusDays(days));
+            boxRepository.save(existingBox);
+            return existingBox;
+        }
+        throw new ResponseStatusException(HttpStatus.CONFLICT, "Cannot rent rented box!");
+    }
 }

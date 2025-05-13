@@ -12,14 +12,13 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class BalanceService {
     private final BalanceRepository balanceRepository;
-    private final BoxService boxService;
-    private final CurrencyService currencyService;
 
     public Balance findBalanceById(Long id) {
         return balanceRepository.findById(id).orElse(null);
@@ -30,6 +29,14 @@ public class BalanceService {
     }
 
     public Balance addBalance(Balance balance) {
+        return balanceRepository.save(balance);
+    }
+
+    public Balance addBalance(Box box, Currency currency, BigDecimal amount) {
+        Balance balance = new Balance();
+        balance.setBox(box);
+        balance.setCurrencyId(currency);
+        balance.setAmount(amount);
         return balanceRepository.save(balance);
     }
 
@@ -50,4 +57,6 @@ public class BalanceService {
     public void deleteBalance(long id) {
         balanceRepository.deleteById(id);
     }
+
+
 }

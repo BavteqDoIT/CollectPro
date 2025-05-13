@@ -19,6 +19,11 @@ public class BalanceController {
         return balanceService.findAllBalances();
     }
 
+    @GetMapping("/{id}")
+    public Balance getBalanceById(@PathVariable long id) {
+        return balanceService.findBalanceById(id);
+    }
+
     @PostMapping
     public Balance addBalance(@RequestBody Balance balance) {
         return balanceService.addBalance(balance);
