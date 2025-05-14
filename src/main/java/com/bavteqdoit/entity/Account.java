@@ -23,4 +23,8 @@ public class Account {
     @ManyToOne
     @JoinColumn(name = "currency_id")
     private Currency chosenCurrency;
+
+    @ManyToOne
+    @JoinColumn(name = "organization_id")
+    private Organization organization;
 }

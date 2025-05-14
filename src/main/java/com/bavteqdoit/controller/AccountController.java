@@ -18,8 +18,13 @@ public class AccountController {
         return accountService.getAllAccounts();
     }
 
-    @PostMapping
-    public Account createAccount(@RequestBody Account account) {
-        return accountService.createAccount(account);
+    @PostMapping("/{organizationId}/{acronym}")
+    public Account createAccount(@PathVariable Long organizationId, @PathVariable String acronym, @RequestBody Account account) {
+        return accountService.createAccount(acronym, organizationId, account);
+    }
+
+    @DeleteMapping("/{id}")
+    public List<Account> deleteAccount(@PathVariable Long id) {
+        return accountService.deleteAccountById(id);
     }
 }

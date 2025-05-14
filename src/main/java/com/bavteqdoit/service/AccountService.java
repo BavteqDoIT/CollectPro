@@ -1,6 +1,8 @@
 package com.bavteqdoit.service;
 
 import com.bavteqdoit.entity.Account;
+import com.bavteqdoit.entity.Currency;
+import com.bavteqdoit.entity.Organization;
 import com.bavteqdoit.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AccountService {
     private final AccountRepository accountRepository;
+    private final CurrencyService currencyService;
+    private final OrganizationService organizationService;
 
     public List<Account> getAllAccounts() {
         return accountRepository.findAll();
@@ -20,7 +24,19 @@ public class AccountService {
         return accountRepository.findById(id).orElse(null);
     }
 
-    public Account createAccount(Account account) {
+    public Account createAccount( String acronym, long organizationId, Account account) {
+        Currency currency = currencyService.findCurrencyByAcronym(acronym);
+        Organization organization = organizationService.getOrganizationById(organizationId);
+        account.setOrganization(organization);
+        account.setChosenCurrency(currency);
+
+
         return accountRepository.save(account);
+    }
+
+    public List<Account> deleteAccountById(Long id) {
+        Account account = getAccountById(id);
+        accountRepository.delete(account);
+        return accountRepository.findAll();
     }
 }
