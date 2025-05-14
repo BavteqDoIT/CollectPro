@@ -46,8 +46,8 @@ public class BoxController {
         return boxService.deleteBox(id);
     }
 
-    @PutMapping("/rent/{id}/{days}")
-    public Box rentBox(@PathVariable long id, @PathVariable int days) {
-        return boxService.rentBox(id,days);
+    @PutMapping("/rent/{id}/{days}/{fundraisingEventId}")
+    public Box rentBox(@PathVariable long id, @PathVariable int days, @PathVariable long fundraisingEventId) {
+        return boxService.rentBox(id,days, fundraisingEventId);
     }
 }

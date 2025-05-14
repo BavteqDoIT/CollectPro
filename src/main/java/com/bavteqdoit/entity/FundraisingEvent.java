@@ -20,13 +20,7 @@ public class FundraisingEvent {
 
     private String eventAddress;
 
-    private int phoneNumber;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id")
     private Account account;
-
-    @ManyToOne
-    @JoinColumn(name = "organization_id")
-    private Organization organization;
 }

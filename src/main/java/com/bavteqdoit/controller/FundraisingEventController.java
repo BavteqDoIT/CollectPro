@@ -16,11 +16,11 @@ public class FundraisingEventController {
 
     @GetMapping
     public List<FundraisingEvent> getAllFundraisingEvents() {
-        return fundraisingEventService.findAllFundraisingEvents();
+        return fundraisingEventService.getAllFundraisingEvents();
     }
 
-    @PostMapping
-    public FundraisingEvent createFundraisingEvent(@RequestBody FundraisingEvent fundraisingEvent) {
-        return fundraisingEventService.createFundraisingEvent(fundraisingEvent);
+    @PostMapping("/{accountId}/{organizationId}")
+    public FundraisingEvent createFundraisingEvent(@PathVariable Long accountId, @PathVariable Long organizationId, @RequestBody FundraisingEvent fundraisingEvent) {
+        return fundraisingEventService.createFundraisingEvent(accountId, organizationId, fundraisingEvent);
     }
 }

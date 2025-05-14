@@ -1,6 +1,7 @@
 package com.bavteqdoit.service;
 
 import com.bavteqdoit.entity.Box;
+import com.bavteqdoit.entity.FundraisingEvent;
 import com.bavteqdoit.repository.BoxRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BoxService {
     private final BoxRepository boxRepository;
+    private final FundraisingEventService fundraisingEventService;
 
     public Box createBox(Box box) {
         return boxRepository.save(box);
@@ -62,12 +64,14 @@ public class BoxService {
         return emptyBox;
     }
 
-    public Box rentBox(long id, int days) {
+    public Box rentBox(long id, int days, long fundraisingEventId) {
         Box existingBox = getBoxById(id);
+        FundraisingEvent fundraisingEvent = fundraisingEventService.getFundraisingEventById(fundraisingEventId);
         if(!existingBox.isRented()) {
             existingBox.setRented(true);
             existingBox.setStartDate(LocalDate.now());
             existingBox.setEndDate(LocalDate.now().plusDays(days));
+            existingBox.setFundraisingEvent(fundraisingEvent);
             boxRepository.save(existingBox);
             return existingBox;
         }
