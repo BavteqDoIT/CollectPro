@@ -18,12 +18,12 @@ public class BoxController {
 
     @GetMapping
     public List<Box> getAllBoxes() {
-        return boxService.findAllBoxes();
+        return boxService.getAllBoxes();
     }
 
     @GetMapping("/{id}")
     public Box getBoxById(@PathVariable long id) {
-        return boxService.findBoxById(id);
+        return boxService.getBoxById(id);
     }
 
     @PostMapping

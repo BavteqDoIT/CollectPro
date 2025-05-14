@@ -1,9 +1,6 @@
 package com.bavteqdoit.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,4 +28,8 @@ public class Box {
     private LocalDate endDate;
 
     private BigDecimal sum;
+
+    @ManyToOne
+    @JoinColumn(name = "event_id")
+    private FundraisingEvent fundraisingEvent;
 }

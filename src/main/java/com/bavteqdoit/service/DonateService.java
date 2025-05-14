@@ -25,7 +25,7 @@ public class DonateService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Currency not found");
         }
 
-        List<Balance> balances = balanceService.findBalanceByBoxId(id);
+        List<Balance> balances = balanceService.getBalanceByBoxId(id);
         for (Balance balance : balances) {
             if (balance.getCurrencyId().equals((currency))) {
                 balance.setAmount(balance.getAmount().add(amount));
@@ -33,7 +33,7 @@ public class DonateService {
                 break;
             }
         }
-        Box box = boxService.findBoxById(id);
+        Box box = boxService.getBoxById(id);
         balanceService.addBalance(box, currency, amount);
     }
 }

@@ -16,12 +16,12 @@ public class BalanceController {
 
     @GetMapping
     public List<Balance> getAllBalances() {
-        return balanceService.findAllBalances();
+        return balanceService.getAllBalances();
     }
 
     @GetMapping("/{id}")
     public Balance getBalanceById(@PathVariable long id) {
-        return balanceService.findBalanceById(id);
+        return balanceService.getBalanceById(id);
     }
 
     @PostMapping

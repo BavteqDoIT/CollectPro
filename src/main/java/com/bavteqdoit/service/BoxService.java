@@ -20,16 +20,16 @@ public class BoxService {
         return boxRepository.save(box);
     }
 
-    public List<Box> findAllBoxes() {
+    public List<Box> getAllBoxes() {
         return boxRepository.findAll();
     }
 
-    public Box findBoxById(Long id) {
+    public Box getBoxById(Long id) {
         return boxRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Box not found!"));
     }
 
     public Box updateBox(long id, Box updatedBox) {
-        Box existingBox = boxRepository.findById(id).orElseThrow(() -> new RuntimeException("Box not found"));
+        Box existingBox = getBoxById(id);
 
         existingBox.setPrice(updatedBox.getPrice());
         existingBox.setRented(updatedBox.isRented());
@@ -41,7 +41,7 @@ public class BoxService {
     }
 
     public List<Box> deleteBox(long id) {
-        Box existingBox = boxRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Box not found!"));
+        Box existingBox = getBoxById(id);
         if (emptyBox(existingBox)) {
             if (existingBox.isRented()) {
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Deleting rented box is not allowed");
@@ -63,7 +63,7 @@ public class BoxService {
     }
 
     public Box rentBox(long id, int days) {
-        Box existingBox = boxRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Box not found!"));
+        Box existingBox = getBoxById(id);
         if(!existingBox.isRented()) {
             existingBox.setRented(true);
             existingBox.setStartDate(LocalDate.now());
