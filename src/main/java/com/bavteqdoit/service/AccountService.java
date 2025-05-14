@@ -7,6 +7,7 @@ import com.bavteqdoit.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -38,5 +39,10 @@ public class AccountService {
         Account account = getAccountById(id);
         accountRepository.delete(account);
         return accountRepository.findAll();
+    }
+
+    public Account updateAccountById(Long id) {
+        Account existingAccount = getAccountById(id);
+        return accountRepository.save(existingAccount);
     }
 }

@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -53,5 +54,15 @@ public class BalanceService {
         balanceRepository.deleteById(id);
     }
 
+    public List<Balance> getBalanceByBox(long boxId) {
+        List<Balance> balances = balanceRepository.findByBoxId(boxId);
+        List<Balance> newBalances = new ArrayList<>();
+        for (Balance balance : balances) {
+            if (balance.getBox().getId() == boxId) {
+                newBalances.add(balance);
+            }
+        }
+        return newBalances;
+    }
 
 }
