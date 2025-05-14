@@ -15,11 +15,27 @@ public class CurrencyController {
 
     @GetMapping
     public List<Currency> getAllCurrencies(){
-        return currencyService.findAllCurrencies();
+        return currencyService.getAllCurrencies();
+    }
+
+    @GetMapping("/{id}")
+    public Currency getCurrencyById(@PathVariable Long id){
+        return currencyService.getCurrencyById(id);
     }
 
     @PostMapping
     public Currency addCurrency(@RequestBody Currency currency){
         return currencyService.addCurrency(currency);
+    }
+
+    @PutMapping("/{id}")
+    public Currency updateCurrency(@PathVariable Long id, @RequestBody Currency updatedCurrency){
+        Currency existingCurrency = getCurrencyById(id);
+
+        existingCurrency.setAcronym(updatedCurrency.getAcronym());
+        existingCurrency.setName(updatedCurrency.getName());
+        existingCurrency.setRateToDollar(updatedCurrency.getRateToDollar());
+
+        return currencyService.updateCurrency(existingCurrency);
     }
 }

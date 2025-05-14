@@ -77,4 +77,10 @@ public class BoxService {
         }
         throw new ResponseStatusException(HttpStatus.CONFLICT, "Cannot rent rented box!");
     }
+
+    public Box addToBox(long id, BigDecimal amount) {
+        Box existingBox = getBoxById(id);
+        existingBox.setSum(amount.add(existingBox.getSum()));
+        return boxRepository.save(existingBox);
+    }
 }

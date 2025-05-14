@@ -25,7 +25,7 @@ public class AccountService {
     }
 
     public Account createAccount( String acronym, long organizationId, Account account) {
-        Currency currency = currencyService.findCurrencyByAcronym(acronym);
+        Currency currency = currencyService.getCurrencyByAcronym(acronym);
         Organization organization = organizationService.getOrganizationById(organizationId);
         account.setOrganization(organization);
         account.setChosenCurrency(currency);

@@ -16,15 +16,19 @@ public class CurrencyService {
         return currencyRepository.save(currency);
     }
 
-    public Currency findCurrencyByAcronym(String acronym) {
+    public Currency getCurrencyByAcronym(String acronym) {
         return currencyRepository.findByAcronym(acronym).orElse(null);
     }
 
-    public List<Currency> findAllCurrencies(){
+    public List<Currency> getAllCurrencies(){
         return currencyRepository.findAll();
     }
 
-    public Currency findCurrencyById(long id) {
+    public Currency getCurrencyById(long id) {
         return currencyRepository.findById(id).orElse(null);
+    }
+
+    public Currency updateCurrency(Currency currency) {
+        return currencyRepository.save(currency);
     }
 }
