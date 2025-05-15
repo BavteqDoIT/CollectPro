@@ -35,7 +35,7 @@ public class DonateService {
         } else {
             boolean found = false;
             for (Balance balance : balances) {
-                if (balance.getCurrencyId().equals((currency))) {
+                if (balance.getCurrency().equals((currency))) {
                     BigDecimal before = balance.getAmount();
                     balance.setAmount(balance.getAmount().add(amount));
                     balanceService.updateBalance(balance.getId(), balance);
@@ -54,7 +54,7 @@ public class DonateService {
 
     public BigDecimal recalculateDonate(Long boxId, Balance balance, BigDecimal amount) {
         Currency boxCurrency = boxService.getBoxById(boxId).getFundraisingEvent().getAccount().getChosenCurrency();
-        Currency balanceCurrency = balance.getCurrencyId();
+        Currency balanceCurrency = balance.getCurrency();
         if (balanceCurrency.equals(boxCurrency)) {
             return amount;
         } else if (boxCurrency.getAcronym().equals("USD")) {

@@ -22,10 +22,10 @@ public class Account {
     private BigDecimal balance = BigDecimal.ZERO;
 
     @ManyToOne
-    @JoinColumn(name = "currency_id", nullable = false)
+    @JoinColumn(name = "currency_id")
     private Currency chosenCurrency;
 
     @ManyToOne
-    @JoinColumn(name = "organization_id", nullable = false)
+    @JoinColumn(name = "organization_id")
     private Organization organization;
 }

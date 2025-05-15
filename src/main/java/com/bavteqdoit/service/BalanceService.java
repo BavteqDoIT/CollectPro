@@ -31,7 +31,7 @@ public class BalanceService {
     public Balance addBalance(Box box, Currency currency, BigDecimal amount) {
         Balance balance = new Balance();
         balance.setBox(box);
-        balance.setCurrencyId(currency);
+        balance.setCurrency(currency);
         balance.setAmount(amount);
         return balanceRepository.save(balance);
     }
@@ -45,7 +45,7 @@ public class BalanceService {
 
         existingBalance.setAmount(updatedBalance.getAmount());
         existingBalance.setBox(updatedBalance.getBox());
-        existingBalance.setCurrencyId(updatedBalance.getCurrencyId());
+        existingBalance.setCurrency(updatedBalance.getCurrency());
 
         return balanceRepository.save(existingBalance);
     }

@@ -16,6 +16,7 @@ public class TransferService {
     private final BalanceService balanceService;
     private final AccountService accountService;
     private final BoxService boxService;
+    private final DonateService donateService;
 
     public Box transferMoneyToAccount(long boxId) {
         Box existingBox = boxService.getBoxById(boxId);
@@ -58,7 +59,11 @@ public class TransferService {
 
     public BigDecimal charge(long boxId) {
         Box existingBox = boxService.getBoxById(boxId);
+
         long days = ChronoUnit.DAYS.between(existingBox.getStartDate(), existingBox.getEndDate());
-        return BigDecimal.valueOf(days).multiply(existingBox.getPrice());
+
+        BigDecimal dollarRateOfChosenCurrency = existingBox.getFundraisingEvent().getAccount().getChosenCurrency().getRateToDollar();
+
+        return BigDecimal.valueOf(days).multiply(donateService.convertFromDollarToCurrency(existingBox.getPrice(), dollarRateOfChosenCurrency));
     }
 }
