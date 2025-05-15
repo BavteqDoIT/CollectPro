@@ -31,4 +31,8 @@ public class CurrencyService {
     public Currency updateCurrency(Currency currency) {
         return currencyRepository.save(currency);
     }
+
+    public void deleteCurrency(long id) {
+        currencyRepository.deleteById(id);
+    }
 }

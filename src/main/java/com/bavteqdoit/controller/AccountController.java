@@ -2,7 +2,9 @@ package com.bavteqdoit.controller;
 
 import com.bavteqdoit.entity.Account;
 import com.bavteqdoit.service.AccountService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,13 +20,21 @@ public class AccountController {
         return accountService.getAllAccounts();
     }
 
-    @PostMapping("/{organizationId}/{acronym}")
-    public Account createAccount(@PathVariable Long organizationId, @PathVariable String acronym, @RequestBody Account account) {
+    @GetMapping("/{id}")
+    public Account getAccountById(@PathVariable long id) {
+        return accountService.getAccountById(id);
+    }
+
+    @PostMapping("/organization/{organizationId}/currency/{acronym}")
+    public Account createAccount(@PathVariable Long organizationId,
+                                 @PathVariable String acronym,
+                                 @Valid @RequestBody Account account) {
         return accountService.createAccount(acronym, organizationId, account);
     }
 
     @DeleteMapping("/{id}")
-    public List<Account> deleteAccount(@PathVariable Long id) {
-        return accountService.deleteAccountById(id);
+    public ResponseEntity<Void> deleteAccount(@PathVariable Long id) {
+        accountService.deleteAccountById(id);
+        return ResponseEntity.noContent().build();
     }
 }

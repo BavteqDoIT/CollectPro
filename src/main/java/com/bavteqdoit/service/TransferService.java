@@ -45,7 +45,7 @@ public class TransferService {
         }
     }
 
-    public Box stopRent(long boxId) {
+    public Box endRental(long boxId) {
         Box existingBox = boxService.getBoxById(boxId);
         transferMoneyToAccount(boxId);
         deleteBalances(boxId);

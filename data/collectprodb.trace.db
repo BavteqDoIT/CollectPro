@@ -62,3 +62,7 @@ DROP TABLE IF EXIST FUNDRAISING_EVENT CASCADE [42001-232]
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Błąd składniowy w wyrażeniu SQL "DROP TABLE [*]IF EXIST fundraising_event CASCADE"; oczekiwano "identifier"
 Syntax error in SQL statement "DROP TABLE [*]IF EXIST fundraising_event CASCADE"; expected "identifier"; SQL statement:
 DROP TABLE IF EXIST fundraising_event CASCADE [42001-232]
+2025-05-15 15:25:25.420306+02:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Błąd składniowy w wyrażeniu SQL "DROP TABLE IF EXISTS FUNDRAISING[*]-EVENT CASCADE"
+Syntax error in SQL statement "DROP TABLE IF EXISTS FUNDRAISING[*]-EVENT CASCADE"; SQL statement:
+DROP TABLE IF EXISTS FUNDRAISING-EVENT CASCADE [42000-232]

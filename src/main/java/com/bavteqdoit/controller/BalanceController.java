@@ -2,7 +2,9 @@ package com.bavteqdoit.controller;
 
 import com.bavteqdoit.entity.Balance;
 import com.bavteqdoit.service.BalanceService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,12 +27,13 @@ public class BalanceController {
     }
 
     @PostMapping
-    public Balance addBalance(@RequestBody Balance balance) {
+    public Balance addBalance(@Valid @RequestBody Balance balance) {
         return balanceService.addBalance(balance);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteBalance(@PathVariable long id) {
+    public ResponseEntity<Void> deleteBalance(@PathVariable long id) {
         balanceService.deleteBalance(id);
+        return ResponseEntity.noContent().build();
     }
 }

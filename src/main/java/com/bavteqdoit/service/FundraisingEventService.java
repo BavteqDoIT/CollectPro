@@ -4,6 +4,7 @@ import com.bavteqdoit.entity.Account;
 import com.bavteqdoit.entity.FundraisingEvent;
 import com.bavteqdoit.entity.Organization;
 import com.bavteqdoit.repository.FundraisingEventRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -34,5 +35,20 @@ public class FundraisingEventService {
 
     public FundraisingEvent getFundraisingEventById(Long id) {
         return fundraisingEventRepository.findById(id).orElse(null);
+    }
+
+    public void deleteFundraisingEvent(Long id) {
+        fundraisingEventRepository.delete(getFundraisingEventById(id));
+    }
+
+    public FundraisingEvent updateFundraisingEvent(long id, FundraisingEvent updatedEvent) {
+        FundraisingEvent existingEvent = fundraisingEventRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("FundraisingEvent not found with id: " + id));
+
+        existingEvent.setName(updatedEvent.getName());
+        existingEvent.setEventAddress(updatedEvent.getEventAddress());
+        existingEvent.setAccount(updatedEvent.getAccount());
+
+        return fundraisingEventRepository.save(existingEvent);
     }
 }

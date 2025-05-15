@@ -26,16 +26,16 @@ public class OrganizationService {
         return organizationRepository.save(organization);
     }
 
-    public Organization updateOrganization(long id, Organization organization) {
-        Organization oldOrganization = getOrganizationById(id);
+    public Organization updateOrganization(long id, Organization updatedOrganization) {
+        Organization existingOrganization = getOrganizationById(id);
 
-        organization.setOwnerFirstName(oldOrganization.getOwnerFirstName());
-        organization.setOwnerLastName(oldOrganization.getOwnerLastName());
-        organization.setOwnerEmail(oldOrganization.getOwnerEmail());
-        organization.setOwnerPhone(oldOrganization.getOwnerPhone());
-        organization.setOrganizationName(oldOrganization.getOrganizationName());
-        organization.setOrganizationPhone(oldOrganization.getOrganizationPhone());
-        return organizationRepository.save(organization);
+        existingOrganization.setOwnerFirstName(updatedOrganization.getOwnerFirstName());
+        existingOrganization.setOwnerLastName(updatedOrganization.getOwnerLastName());
+        existingOrganization.setOwnerEmail(updatedOrganization.getOwnerEmail());
+        existingOrganization.setOwnerPhone(updatedOrganization.getOwnerPhone());
+        existingOrganization.setOrganizationName(updatedOrganization.getOrganizationName());
+        existingOrganization.setOrganizationPhone(updatedOrganization.getOrganizationPhone());
+        return organizationRepository.save(existingOrganization);
     }
 
     public List<Organization> deleteOrganization(long id) {
