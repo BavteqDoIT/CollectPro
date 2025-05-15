@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -18,15 +19,26 @@ public class OrganizationService {
         return organizationRepository.findAll();
     }
 
-    public Organization getOrganizationById(long id) {
-        return organizationRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Organization not found!"));
+    public Organization getOrganizationById(Long id) {
+        if (id == null || id <= 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Id must be greater than 0");
+        }
+        return organizationRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Organization not found!"));
     }
 
     public Organization createOrganization(Organization organization) {
+        Objects.requireNonNull(organization, "Organization cannot be null");
+        if (organizationRepository.existsByOrganizationName(organization.getOrganizationName())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Organization with this name already exists");
+        }
         return organizationRepository.save(organization);
     }
 
-    public Organization updateOrganization(long id, Organization updatedOrganization) {
+    public Organization updateOrganization(Long id, Organization updatedOrganization) {
+        if (id <= 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Id must be greater than 0");
+        }
+        Objects.requireNonNull(updatedOrganization, "Organization cannot be null");
         Organization existingOrganization = getOrganizationById(id);
 
         existingOrganization.setOwnerFirstName(updatedOrganization.getOwnerFirstName());
@@ -38,9 +50,10 @@ public class OrganizationService {
         return organizationRepository.save(existingOrganization);
     }
 
-    public List<Organization> deleteOrganization(long id) {
-        Organization organization = getOrganizationById(id);
-        organizationRepository.delete(organization);
-        return organizationRepository.findAll();
+    public void deleteOrganization(Long id) {
+        if (id <= 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Id must be greater than 0");
+        }
+        organizationRepository.delete(getOrganizationById(id));
     }
 }

@@ -1,9 +1,7 @@
 package com.bavteqdoit.service;
 
-import com.bavteqdoit.entity.Account;
 import com.bavteqdoit.entity.Box;
 import com.bavteqdoit.entity.FundraisingEvent;
-import com.bavteqdoit.repository.BalanceRepository;
 import com.bavteqdoit.repository.BoxRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +20,7 @@ public class BoxService {
     private final FundraisingEventService fundraisingEventService;
 
     public Box createBox(Box box) {
+        Objects.requireNonNull(box, "Box is required");
         return boxRepository.save(box);
     }
 
@@ -29,10 +29,17 @@ public class BoxService {
     }
 
     public Box getBoxById(Long id) {
+        if (id <= 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid ID");
+        }
         return boxRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Box not found!"));
     }
 
-    public Box updateBox(long id, Box updatedBox) {
+    public Box updateBox(Long id, Box updatedBox) {
+        if (id <= 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid ID");
+        }
+        Objects.requireNonNull(updatedBox, "Box is required");
         Box existingBox = getBoxById(id);
 
         existingBox.setPrice(updatedBox.getPrice());
@@ -44,14 +51,16 @@ public class BoxService {
         return boxRepository.save(existingBox);
     }
 
-    public List<Box> deleteBox(long id) {
+    public void deleteBox(Long id) {
+        if (id <= 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid ID");
+        }
         Box existingBox = getBoxById(id);
         if (emptyBox(existingBox)) {
             if (existingBox.isRented()) {
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Deleting rented box is not allowed");
             } else {
                 boxRepository.deleteById(id);
-                return boxRepository.findAll();
             }
         } else {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Cannot delete not empty box!");
@@ -59,30 +68,40 @@ public class BoxService {
     }
 
     public boolean emptyBox(Box box) {
-        boolean emptyBox = false;
-        if ((box.getSum().compareTo(BigDecimal.ZERO) == 0)) {
-            emptyBox = true;
-        }
-        return emptyBox;
+        Objects.requireNonNull(box, "Box is required");
+        return box.getSum().compareTo(BigDecimal.ZERO) == 0;
     }
 
-    public Box rentBox(long id, int days, long fundraisingEventId) {
+    public Box rentBox(Long id, int days, Long fundraisingEventId) {
+        if (id <= 0 || fundraisingEventId <= 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid ID");
+        }
+        if (days <= 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Number of days must be greater than 0");
+        }
         Box existingBox = getBoxById(id);
         FundraisingEvent fundraisingEvent = fundraisingEventService.getFundraisingEventById(fundraisingEventId);
-        if(!existingBox.isRented()) {
+        if (!existingBox.isRented()) {
             existingBox.setRented(true);
             existingBox.setStartDate(LocalDate.now());
             existingBox.setEndDate(LocalDate.now().plusDays(days));
             existingBox.setFundraisingEvent(fundraisingEvent);
-            boxRepository.save(existingBox);
-            return existingBox;
+
+            return boxRepository.save(existingBox);
         }
         throw new ResponseStatusException(HttpStatus.CONFLICT, "Cannot rent rented box!");
     }
 
-    public Box addToBox(long id, BigDecimal amount) {
+    public void addToBox(Long id, BigDecimal amount) {
+        if (id <= 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid ID");
+        }
+        Objects.requireNonNull(amount, "Amount is required");
+        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Amount must be greater than 0");
+        }
         Box existingBox = getBoxById(id);
         existingBox.setSum(amount.add(existingBox.getSum()));
-        return boxRepository.save(existingBox);
+        boxRepository.save(existingBox);
     }
 }
