@@ -18,13 +18,14 @@ public class Balance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private BigDecimal amount;
+    @Column(nullable = false)
+    private BigDecimal amount = BigDecimal.ZERO;
 
     @ManyToOne
-    @JoinColumn(name = "box_id")
+    @JoinColumn(name = "box_id", nullable = false)
     private Box box;
 
     @ManyToOne
-    @JoinColumn(name = "currency_id")
-    private Currency currencyId;
+    @JoinColumn(name = "currency_id", nullable = false)
+    private Currency currency;
 }

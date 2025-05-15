@@ -1,9 +1,7 @@
 package com.bavteqdoit.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,19 +15,26 @@ import lombok.NoArgsConstructor;
 public class Organization {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
+    @Column(nullable = false)
     private String ownerFirstName;
 
+    @Column(nullable = false)
     private String ownerLastName;
 
+    @Email
+    @Column(nullable = false)
     private String ownerEmail;
 
-    private int ownerPhone;
+    @Column(nullable = false)
+    private String ownerPhone;
 
+    @Column(nullable = false, unique = true)
     private String organizationName;
 
-    private int organizationPhone;
+    @Column(nullable = false, unique = true)
+    private String organizationPhone;
 
 
 }

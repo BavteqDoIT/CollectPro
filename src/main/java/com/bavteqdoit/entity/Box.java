@@ -19,15 +19,18 @@ public class Box {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private BigDecimal price;
+    @Column(nullable = false)
+    private BigDecimal price = BigDecimal.ZERO;
 
-    private boolean rented;
+    @Column(nullable = false)
+    private boolean rented = false;
 
     private LocalDate startDate;
 
     private LocalDate endDate;
 
-    private BigDecimal sum;
+    @Column(nullable = false)
+    private BigDecimal sum = BigDecimal.ZERO;
 
     @ManyToOne
     @JoinColumn(name = "event_id")

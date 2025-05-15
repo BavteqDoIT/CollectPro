@@ -16,11 +16,13 @@ public class FundraisingEvent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
     private String eventAddress;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "account_id")
+    @ManyToOne
+    @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 }

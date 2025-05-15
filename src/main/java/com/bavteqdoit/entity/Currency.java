@@ -1,9 +1,6 @@
 package com.bavteqdoit.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,10 +18,12 @@ public class Currency {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String acronym;
 
+    @Column(nullable = false, unique = true)
     private String name;
 
+    @Column(nullable = false, precision = 19, scale = 6)
     private BigDecimal rateToDollar;
-
 }

@@ -18,13 +18,14 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private BigDecimal balance;
+    @Column(nullable = false)
+    private BigDecimal balance = BigDecimal.ZERO;
 
     @ManyToOne
-    @JoinColumn(name = "currency_id")
+    @JoinColumn(name = "currency_id", nullable = false)
     private Currency chosenCurrency;
 
     @ManyToOne
-    @JoinColumn(name = "organization_id")
+    @JoinColumn(name = "organization_id", nullable = false)
     private Organization organization;
 }
